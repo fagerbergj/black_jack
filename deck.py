@@ -1,9 +1,13 @@
-from queue import Queue
 from random import shuffle
 
 class Deck():
     def __init__(self, cards):
-        self.cards = Queue(shuffle(cards))
+        self.cards = cards
     
     def draw(self):
-        return self.cards.get()
+        card = self.cards[0]
+        self.cards = self.cards[1:]
+        return card
+
+    def shuffle(self):
+        self.cards = shiffle(cards)
