@@ -20,3 +20,8 @@ class TestDeck():
         test = Deck(cards)
         test.shuffle
         assert cards == test.cards
+
+    def test_default_deck(self):
+        test = Deck(None)
+        test.default_deck()
+        assert len(test.cards) == 52
