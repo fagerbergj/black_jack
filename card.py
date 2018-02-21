@@ -10,3 +10,24 @@ class Card():
 
     def __repr__(self):
         return self.__str__()
+
+    def __eq__(self, other):
+        return self.value == other.value
+
+    def __lt__(self, other):
+        if(self.value == 1):
+            return False
+        if(other.value == 1):
+            return True
+        return self.value < other.value
+
+    def __gt__(self, other):
+        if(self.value == 1):
+            return True
+        if(other.value == 1):
+            return False
+        return self.value > other.value
+
+    def same_as(self, other):
+        return self.value == other.value and self.suit == other.suit
+

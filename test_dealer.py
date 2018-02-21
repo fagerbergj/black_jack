@@ -7,7 +7,7 @@ class TestDealer():
 
     def setup_method(self, method):
         self.deck = Deck([Card(11,"Hearts"), Card(12,"Spades"), Card(13, "Diamonds"), Card(1, "Clubs"), Card(6, "Hearts")])
-        self.hand = [Card(7,"7")]
+        self.hand = [Card(7,"Clubs")]
         self.test = Dealer("Jason", 10000, self.deck, self.hand)
 
     def test_dealer(self):
@@ -18,8 +18,8 @@ class TestDealer():
     
     def test_draw(self):
         self.test.draw(self.test)
-        play = Player("Jason", 100, [])
-        self.test.draw(play)
+        self.play = Player("Jason", 100, [])
+        self.test.draw(self.play)
 
-        assert self.test.hand == [Card(7,"7"), Card(11,"Hearts")]
+        assert self.test.hand == [Card(7,"Clubs"), Card(11,"Hearts")]
         assert self.play.hand == [Card(12,"Spades")]

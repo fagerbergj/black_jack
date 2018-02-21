@@ -8,6 +8,7 @@ class TestDeck():
         while len(test.cards) > 0:
             x = test.draw()
             assert x in cards
+
     
     def test_draw(self):
         cards = [Card(11,"Hearts"), Card(12,"Spades"), Card(13, "Diamonds"), Card(1, "Clubs"), Card(6, "Hearts")]
@@ -22,6 +23,5 @@ class TestDeck():
         assert cards == test.cards
 
     def test_default_deck(self):
-        test = Deck(None)
-        test.default_deck()
+        test = Deck([])
         assert len(test.cards) == 52
