@@ -1,4 +1,3 @@
 {
-  "test_deck.py::TestDeck": true,
-  "test_deck.py::TestDeck::()::test_draw": true
+  "test_dealer.py::TestDealer::()::test_draw": true
 }

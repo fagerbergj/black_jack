@@ -1,3 +1,4 @@
-.pythest_cache
+.pytest_cache
 .vscode
 __pycache__
+.coverage
