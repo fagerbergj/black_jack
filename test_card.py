@@ -18,6 +18,17 @@ class TestCard():
         assert str(ace) == "Ace of Clubs"
         assert str(num) == "6 of Hearts"
      
+    def test_repr(self):
+        jack = Card(11,"Hearts")
+        queen = Card(12,"Spades")
+        king = Card(13, "Diamonds")
+        ace = Card(1, "Clubs")
+        num = Card(6, "Hearts")
+        assert repr(jack) == "Jack of Hearts"
+        assert repr(queen) == "Queen of Spades"
+        assert repr(king) == "King of Diamonds"
+        assert repr(ace) == "Ace of Clubs"
+        assert repr(num) == "6 of Hearts"
 
     def test_compare(self):
         jack = Card(11,"Hearts")
@@ -31,7 +42,7 @@ class TestCard():
         assert jack == Card(11,"Clubs")
         assert jack != queen
 
-        assert jack < ace
+        assert jack > ace
         assert not king < queen
         assert not jack < jack
 

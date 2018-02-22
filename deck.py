@@ -3,10 +3,11 @@ from random import shuffle
 from card import Card
 
 class Deck():
-    def __init__(self, cards):
-        self.cards = cards
-        if(len(cards) == 0):
+    def __init__(self, *args):
+        if not args:
             self.default_deck()
+        else:
+            self.cards = args[0]
     
     def draw(self):
         card = self.cards[0]

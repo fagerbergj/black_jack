@@ -15,17 +15,9 @@ class Card():
         return self.value == other.value
 
     def __lt__(self, other):
-        if(self.value == 1):
-            return False
-        if(other.value == 1):
-            return True
         return self.value < other.value
 
     def __gt__(self, other):
-        if(self.value == 1):
-            return True
-        if(other.value == 1):
-            return False
         return self.value > other.value
 
     def same_as(self, other):

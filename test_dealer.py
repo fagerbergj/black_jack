@@ -21,5 +21,10 @@ class TestDealer():
         self.play = Player("Jason", 100, [])
         self.test.draw(self.play)
 
-        assert self.test.hand == [Card(7,"Clubs"), Card(11,"Hearts")]
-        assert self.play.hand == [Card(12,"Spades")]
+        expected = [Card(7,"Clubs"), Card(11,"Hearts")]
+        for i in range(len(self.test.hand)):
+            assert len(self.test.hand) == len(expected) and self.test.hand[i].same_as(expected[i]) 
+
+        expected = [Card(12,"Spades")]
+        for i in range(len(self.play.hand)):
+            assert len(self.play.hand) == len(expected) and self.play.hand[i].same_as(expected[i])

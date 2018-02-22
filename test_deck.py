@@ -19,9 +19,9 @@ class TestDeck():
     def test_shuffle(self):
         cards = [Card(11,"Hearts"), Card(12,"Spades"), Card(13, "Diamonds"), Card(1, "Clubs"), Card(6, "Hearts")]
         test = Deck(cards)
-        test.shuffle
+        test.shuffle()
         assert cards == test.cards
 
     def test_default_deck(self):
-        test = Deck([])
+        test = Deck()
         assert len(test.cards) == 52
