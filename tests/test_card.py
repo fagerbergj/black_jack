@@ -1,4 +1,4 @@
-from card import Card
+from black_jack.card import Card
 
 class TestCard():
     def test_card(self):

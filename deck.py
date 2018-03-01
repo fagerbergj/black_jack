@@ -1,6 +1,5 @@
-
 from random import shuffle
-from card import Card
+from black_jack.card import Card
 
 class Deck():
     def __init__(self, *args):
@@ -31,3 +30,4 @@ class Deck():
         Card(12,"Hearts"), Card(12,"Diamonds"), Card(12,"Spades"), Card(12,"Clubs"),
         Card(13,"Hearts"), Card(13,"Diamonds"), Card(13,"Spades"), Card(13,"Clubs"),
         Card(1,"Hearts"), Card(1,"Diamonds"), Card(1,"Spades"), Card(1,"Clubs")]
+        self.shuffle()

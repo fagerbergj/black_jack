@@ -1,5 +1,5 @@
-from deck import Deck
-from card import Card
+from black_jack.deck import Deck
+from black_jack.card import Card
 
 class TestDeck():
     def test_deck(self):

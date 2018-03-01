@@ -1,6 +1,6 @@
-from deck import Deck
-from card import Card
-from player import Player
+from black_jack.deck import Deck
+from black_jack.card import Card
+from black_jack.player import Player
 
 class TestPlayer():
     def test_player(self):
