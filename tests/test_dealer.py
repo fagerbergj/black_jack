@@ -1,7 +1,11 @@
-from black_jack.deck import Deck
-from black_jack.card import Card
-from black_jack.player import Player
-from black_jack.dealer import Dealer
+import sys, os
+myPath = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, myPath + '/../src/')
+
+from deck import Deck
+from card import Card
+from player import Player
+from dealer import Dealer
 
 class TestDealer():
 

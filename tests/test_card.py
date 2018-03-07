@@ -1,4 +1,8 @@
-from black_jack.card import Card
+import sys, os
+myPath = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, myPath + '/../src/')
+
+from card import Card
 
 class TestCard():
     def test_card(self):
