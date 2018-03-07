@@ -1,3 +1,5 @@
+from .deck import Deck
+
 class Dealer():
     def __init__(self, name, house_money, deck, hand):
         self.name = name

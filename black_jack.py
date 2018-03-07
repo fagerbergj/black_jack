@@ -1,6 +1,6 @@
-from black_jack.dealer import Dealer
-from black_jack.player import Player
-from black_jack.deck import Deck
+from .dealer import Dealer
+from .player import Player
+from .deck import Deck
 
 def main():
     pass
