@@ -28,4 +28,4 @@ class TestDeck():
 
     def test_default_deck(self):
         test = Deck()
-        assert len(test.cards) == 52
+        assert len(test.cards) == 52 * 4
