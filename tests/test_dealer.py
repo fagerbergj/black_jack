@@ -38,7 +38,7 @@ class TestDealer():
     def test_draw_empty(self):
         empty = Dealer("E", 300, [], Deck([]))
         empty.draw()
-        assert empty.deck.size() = 52 * 4 - 1
+        assert empty.deck.size() == 52 * 4 - 1
 
     @mock.patch("dealer.print")
     def test_status(self, m):

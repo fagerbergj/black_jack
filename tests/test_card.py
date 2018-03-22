@@ -14,7 +14,7 @@ class TestCard():
         jack = Card(11,"Hearts")
         queen = Card(12,"Spades")
         king = Card(13, "Diamonds")
-        ace = Card(1, "Clubs")
+        ace = Card((1,11), "Clubs")
         num = Card(6, "Hearts")
         assert str(jack) == "Jack of Hearts"
         assert str(queen) == "Queen of Spades"
@@ -26,33 +26,13 @@ class TestCard():
         jack = Card(11,"Hearts")
         queen = Card(12,"Spades")
         king = Card(13, "Diamonds")
-        ace = Card(1, "Clubs")
+        ace = Card((1,11), "Clubs")
         num = Card(6, "Hearts")
         assert repr(jack) == "Jack of Hearts"
         assert repr(queen) == "Queen of Spades"
         assert repr(king) == "King of Diamonds"
         assert repr(ace) == "Ace of Clubs"
         assert repr(num) == "6 of Hearts"
-
-    def test_compare(self):
-        jack = Card(11,"Hearts")
-        queen = Card(12,"Spades")
-        king = Card(13, "Diamonds")
-        ace = Card(1, "Clubs")
-        six = Card(6, "Hearts")
-        five = Card(5, "Hearts")
-
-        assert jack == Card(11,"Hearts")
-        assert jack == Card(11,"Clubs")
-        assert jack != queen
-
-        assert jack > ace
-        assert not king < queen
-        assert not jack < jack
-
-        assert six > five
-        assert not five > queen
-        assert not queen > queen
 
     def test_same_as(self):
         t1 = Card(11,"Hearts")
