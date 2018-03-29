@@ -29,4 +29,14 @@ class TestGame():
     def test_sum_hand_has_multi_ace(self, mock_input):
         game = Game()
         h = [Card(8, "Hearts"), Card((1,11), "Clubs"), Card((1,11), "Clubs")]
-        assert game.sum_hand(h) == {10,20,30}
+        assert game.sum_hand(h) == {10,20}
+
+    def test_sum_hand_worst_case(self, mock_input):
+        game = Game()
+        h = [Card((1,11), "Clubs")] * 16
+        assert game.sum_hand(h) == {16}
+
+    def test_sum_hand_equals_21(self, mock_input):
+        game = Game()
+        h = [Card((1,11), "Clubs"), Card(10, "Clubs")]
+        assert game.sum_hand(h) == {11, 21}
