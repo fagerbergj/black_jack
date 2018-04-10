@@ -32,5 +32,5 @@ class Deck():
         Card(11,"Hearts"), Card(11,"Diamonds"), Card(11,"Spades"), Card(11,"Clubs"),
         Card(12,"Hearts"), Card(12,"Diamonds"), Card(12,"Spades"), Card(12,"Clubs"),
         Card(13,"Hearts"), Card(13,"Diamonds"), Card(13,"Spades"), Card(13,"Clubs"),
-        Card(1,"Hearts"), Card(1,"Diamonds"), Card(1,"Spades"), Card(1,"Clubs")] * 4
+        Card((1,11),"Hearts"), Card((1,11),"Diamonds"), Card((1,11),"Spades"), Card((1,11),"Clubs")] * 4
         self.shuffle()
