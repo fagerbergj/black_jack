@@ -29,8 +29,8 @@ class Deck():
         Card(8,"Hearts"), Card(8,"Diamonds"), Card(8,"Spades"), Card(8,"Clubs"),
         Card(9,"Hearts"), Card(9,"Diamonds"), Card(9,"Spades"), Card(9,"Clubs"),
         Card(10,"Hearts"), Card(10,"Diamonds"), Card(10,"Spades"), Card(10,"Clubs"),
-        Card(11,"Hearts"), Card(11,"Diamonds"), Card(11,"Spades"), Card(11,"Clubs"),
-        Card(12,"Hearts"), Card(12,"Diamonds"), Card(12,"Spades"), Card(12,"Clubs"),
-        Card(13,"Hearts"), Card(13,"Diamonds"), Card(13,"Spades"), Card(13,"Clubs"),
-        Card((1,11),"Hearts"), Card((1,11),"Diamonds"), Card((1,11),"Spades"), Card((1,11),"Clubs")] * 4
+        Card("Jack","Hearts"), Card("Jack","Diamonds"), Card("Jack","Spades"), Card("Jack","Clubs"),
+        Card("Queen","Hearts"), Card("Queen","Diamonds"), Card("Queen","Spades"), Card("Queen","Clubs"),
+        Card("King","Hearts"), Card("King","Diamonds"), Card("King","Spades"), Card("King","Clubs"),
+        Card("Ace","Hearts"), Card("Ace","Diamonds"), Card("Ace","Spades"), Card("Ace","Clubs")] * 4
         self.shuffle()

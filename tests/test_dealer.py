@@ -10,8 +10,12 @@ from dealer import Dealer
 
 class TestDealer():
 
+    def same_card(self, c1, c2):
+        print()
+        return c1.name == c2.name and c1.suit == c2.suit
+
     def setup_method(self, method):
-        self.deck = Deck([Card(11,"Hearts"), Card(12,"Spades"), Card(13, "Diamonds"), Card(1, "Clubs"), Card(6, "Hearts")])
+        self.deck = Deck([Card("Jack","Hearts"), Card("Queen","Spades"), Card("King", "Diamonds"), Card("Ace", "Clubs"), Card(6, "Hearts")])
         self.hand = [Card(7,"Clubs")]
         self.test = Dealer("Jason", 10000, self.hand, self.deck)
 
@@ -23,17 +27,17 @@ class TestDealer():
     
     def test_draw(self):
         self.test.draw()
+
+        expected = [Card(7,"Clubs"), Card("Jack","Hearts")]
+        for i in range(len(self.test.hand)):
+            assert len(self.test.hand) == len(expected) and self.same_card(self.test.hand[i], expected[i]) 
+
         self.play = Player("Jason", 100, [])
         self.test.draw(self.play)
-        
 
-        expected = [Card(7,"Clubs"), Card(11,"Hearts")]
-        for i in range(len(self.test.hand)):
-            assert len(self.test.hand) == len(expected) and self.test.hand[i].same_as(expected[i]) 
-
-        expected = [Card(12,"Spades")]
+        expected = [Card("Queen","Spades")]
         for i in range(len(self.play.hand)):
-            assert len(self.play.hand) == len(expected) and self.play.hand[i].same_as(expected[i])
+            assert len(self.play.hand) == len(expected)  and self.same_card(self.play.hand[i], expected[i]) 
 
     def test_draw_empty(self):
         empty = Dealer("E", 300, [], Deck([]))

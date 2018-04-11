@@ -1,10 +1,16 @@
-VAULE_MAP = {11:"Jack", 12:"Queen", (1,11):"Ace", 13:"King"}
+VAULE_MAP = {"Jack":10, "Queen":10, "Ace":(1,11), "King":10}
+SUITS = {"Spades", "Clubs", "Diamonds", "Hearts"}
 class Card():
-    def __init__(self, value, suit):
-        self.value = value
-        self.name = value
-        if self.value in VAULE_MAP:
-            self.name = VAULE_MAP.get(self.value, self.value)
+    def __init__(self, name, suit):
+        self.name = name
+        if suit not in SUITS:
+            raise ValueError("Suit: {} is not valid".format(suit))
+        if isinstance(name, str):
+            self.value = VAULE_MAP[self.name]
+        elif isinstance(name, int) and name > 10:
+            raise ValueError("Card of value: {} is not valid".format(name))
+        else:
+            self.value = name
         self.suit = suit
 
     def __str__(self):
@@ -12,6 +18,3 @@ class Card():
 
     def __repr__(self):
         return self.__str__()
-
-    def same_as(self, other):
-        return self.value == other.value and self.suit == other.suit

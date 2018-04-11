@@ -9,7 +9,7 @@ from player import Player
 
 class TestPlayer():
     def test_player(self):
-        hand = [Card(11,"Hearts")]
+        hand = [Card("Jack","Hearts")]
         test = Player("Jason", 100, hand)
         assert test.hand == hand
         assert test.name == "Jason"
@@ -17,7 +17,7 @@ class TestPlayer():
 
     @mock.patch("player.print")
     def test_status(self, m):
-        hand = [Card(11,"Hearts")]
+        hand = [Card("Jack","Hearts")]
         test = Player("Jason", 100, hand)
         test.status()
         m.assert_called_once_with("Player's Remaining Money: {}\n Player Hand: {}".format(test.money, test.hand))
