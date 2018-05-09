@@ -1,9 +1,8 @@
-from dealer import Dealer
-from player import Player
-from deck import Deck
+from game import Game
 
 def main():
-    pass
+    jack = Game()
+    jack.start()
     
 
 if __name__ == "__main__":

@@ -45,6 +45,7 @@ class Game():
     def start(self):
         exit_condition = self.dealer.house_money <= 0 or self.player.money <= 0
         while not exit_condition:
+            self.player.bet()
             #Deal Cards
             print("Dealing Cards.........")
             self.dealer.draw(self.player)
