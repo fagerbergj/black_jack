@@ -8,7 +8,7 @@ from player import Player
 from game import Game
 from card import Card
 
-@mock.patch("game.input", side_effect=["Bob", "1100", "Tom", "21445"])
+@mock.patch("game.input", side_effect=["Bob", "1100", "Tom", "21445", "10"])
 class TestGame():
 
     def test_game(self, mock_input):
@@ -40,3 +40,22 @@ class TestGame():
         game = Game()
         h = [Card("Ace", "Clubs"), Card(10, "Clubs")]
         assert game.sum_hand(h) == {11, 21}
+
+    def test_set_min(self, mock_input):
+        game = Game()
+        assert game.min == 10
+        
+    def test_valid_bet(self, mock_input):
+        mock_input.side_effect = list(mock_input.side_effect) + ["40"]
+        game = Game()
+        assert game.get_valid_bet() == 40
+
+    def test_invalid_high_bet(self, mock_input):
+        mock_input.side_effect = list(mock_input.side_effect) + ["21446","21450","123456789", "50"]
+        game = Game()
+        assert game.get_valid_bet() == 50
+
+    def test_invalid_low_bet(self, mock_input):
+        mock_input.side_effect = list(mock_input.side_effect) + ["9","1","0", "10"]
+        game = Game()
+        assert game.get_valid_bet() == 10

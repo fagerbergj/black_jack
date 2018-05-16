@@ -21,17 +21,3 @@ class TestPlayer():
         test = Player("Jason", 100, hand)
         test.status()
         m.assert_called_once_with("Player's Remaining Money: {}\n Player Hand: {}".format(test.money, test.hand))
-
-    @mock.patch("player.input", side_effect=["40"])
-    def test_valid_bet(self, m):
-        hand = [Card("Jack","Hearts")]
-        test = Player("Jason", 100, hand)
-        test.bet()
-        assert test.money == 60
-
-    @mock.patch("player.input", side_effect=["400", "200", "101", "25"])
-    def test_invalid_bet(self, m):
-        hand = [Card("Jack","Hearts")]
-        test = Player("Jason", 100, hand)
-        test.bet()
-        assert test.money == 75
