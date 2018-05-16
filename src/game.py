@@ -6,6 +6,7 @@ class Game():
     def __init__(self):
         self.dealer = Dealer(input("Dealer Name: "), int(input("House Limit: ")))
         self.player = Player(input("Player Name: "), int(input("Player Limit: ")))
+        self.min = int(input("Enter table min: "))
 
     def sum_hand(self, h):
         base_sum = 0
@@ -41,11 +42,23 @@ class Game():
             if s <= 21:
                 r.add(s)
         return r
+    
+    def get_valid_bet(self):
+        bet = int(input("Place your bets: "))
+        if bet > self.player.money:
+            print("Invalid bet, bet too high")
+            return self.get_valid_bet()
+        elif bet < self.min:
+            print("Invalid bet, bet too low")
+            return self.get_valid_bet()
+        else:
+            return bet
+
 
     def start(self):
         exit_condition = self.dealer.house_money <= 0 or self.player.money <= 0
         while not exit_condition:
-            self.player.bet()
+            self.player.bet(self.get_valid_bet())
             #Deal Cards
             print("Dealing Cards.........")
             self.dealer.draw(self.player)

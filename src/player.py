@@ -7,10 +7,5 @@ class Player():
     def status(self):
         print("Player's Remaining Money: {}\n Player Hand: {}".format(self.money, self.hand))
 
-    def bet(self):
-        bet = int(input("Place your bets: "))
-        if bet > self.money:
-            print("Invalid bet, bet too high")
-            self.bet()
-        else:
-            self.money -= bet
+    def bet(self, b):
+        self.money -= b
