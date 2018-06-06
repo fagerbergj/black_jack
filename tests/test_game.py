@@ -59,3 +59,14 @@ class TestGame():
 
     def test_invalid_move(self, mock_input):
         assert not self.game.is_valid_move("x") and not self.game.is_valid_move("shgs")
+
+    @mock.patch("game.Game.hit")
+    def test_player_move_hit(self, mock_hit, mock_input):
+        self.game.player_move("h")
+        mock_hit.assert_called_once()
+
+    def test_hit_adds_card(self, mock_input):
+        hand_len_before = len(self.game.player.hand)
+        self.game.hit()
+        assert len(self.game.player.hand) == hand_len_before + 1
+

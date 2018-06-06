@@ -21,7 +21,7 @@ class Game():
                 base_sum += c.value
             else:
                 aces += 1
-
+                
         return self.get_sums(aces, base_sum)
 
     def get_sums(self, aces, base_sum):
@@ -59,6 +59,13 @@ class Game():
 
     def is_valid_move(self, i):
         return i == "h" or i == "s"
+    
+    def player_move(self, i):
+        if i == "h":
+            self.hit()
+
+    def hit(self):
+        self.dealer.draw(self.player)
 
     def start(self):
         exit_condition = self.dealer.house_money <= 0 or self.player.money <= 0
@@ -77,6 +84,7 @@ class Game():
             while(not self.is_valid_move(move)):
                 move = input("MOVE INVALID\nEnter move:")
             return
+
             #Check hands
             
             #player decides moves
