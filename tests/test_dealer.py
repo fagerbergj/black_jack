@@ -17,12 +17,11 @@ class TestDealer():
     def setup_method(self, method):
         self.deck = Deck([Card("Jack","Hearts"), Card("Queen","Spades"), Card("King", "Diamonds"), Card("Ace", "Clubs"), Card(6, "Hearts")])
         self.hand = [Card(7,"Clubs")]
-        self.test = Dealer("Jason", 10000, self.hand, self.deck)
+        self.test = Dealer( 10000, self.hand, self.deck)
 
     def test_dealer(self):
         assert self.test.deck == self.deck
         assert self.test.hand == self.hand
-        assert self.test.name == "Jason"
         assert self.test.house_money == 10000
     
     def test_draw(self):
@@ -40,7 +39,7 @@ class TestDealer():
             assert len(self.play.hand) == len(expected)  and self.same_card(self.play.hand[i], expected[i]) 
 
     def test_draw_empty(self):
-        empty = Dealer("E", 300, [], Deck([]))
+        empty = Dealer(300, [], Deck([]))
         empty.draw()
         assert empty.deck.size() == 52 * 4 - 1
 

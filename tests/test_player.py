@@ -21,3 +21,10 @@ class TestPlayer():
         test = Player("Jason", 100, hand)
         test.status()
         m.assert_called_once_with("Player's Remaining Money: {}\n Player Hand: {}".format(test.money, test.hand))
+
+    @mock.patch("player.print")
+    def test_bet(self, m):
+        hand = [Card("Jack","Hearts")]
+        test = Player("Jason", 100, hand)
+        test.bet(40)
+        assert test.money == 60 and test.curr_bet == 40

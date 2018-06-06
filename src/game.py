@@ -4,9 +4,12 @@ from deck import Deck
 
 class Game():
     def __init__(self):
-        self.dealer = Dealer(input("Dealer Name: "), int(input("House Limit: ")))
-        self.player = Player(input("Player Name: "), int(input("Player Limit: ")))
+        print("\n........HOUSE VARIABLES........")
+        self.dealer = Dealer(int(input("House Limit: ")))
         self.min = int(input("Enter table min: "))
+        print("\n........PLAYER VARIABLES........")
+        self.player = Player(input("Player Name: "), int(input("Player Limit: ")))
+        
 
     def sum_hand(self, h):
         base_sum = 0
@@ -43,29 +46,36 @@ class Game():
                 r.add(s)
         return r
     
-    def get_valid_bet(self):
-        bet = int(input("Place your bets: "))
+    def get_valid_bet(self, name):
+        bet = int(input("{} place your bet: ".format(name)))
         if bet > self.player.money:
             print("Invalid bet, bet too high")
-            return self.get_valid_bet()
+            return self.get_valid_bet(name)
         elif bet < self.min:
             print("Invalid bet, bet too low")
-            return self.get_valid_bet()
+            return self.get_valid_bet(name)
         else:
             return bet
 
+    def is_valid_move(self, i):
+        return i == "h" or i == "s"
 
     def start(self):
         exit_condition = self.dealer.house_money <= 0 or self.player.money <= 0
+        print("........GAME HAS STARTED........\n")
         while not exit_condition:
-            self.player.bet(self.get_valid_bet())
+            self.player.bet(self.get_valid_bet(self.player.name))
             #Deal Cards
-            print("Dealing Cards.........")
+            print("\n........DEALING CARDS........")
             self.dealer.draw(self.player)
             self.dealer.draw(self.player)
             self.player.status()
             self.dealer.draw()
             self.dealer.status()
+            print("\n........PLAYER'S TURN........")
+            move = input("Move Options: \nh = hit\ns = stay\nEnter move:")
+            while(not self.is_valid_move(move)):
+                move = input("MOVE INVALID\nEnter move:")
             return
             #Check hands
             
