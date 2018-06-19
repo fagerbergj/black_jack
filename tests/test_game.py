@@ -3,9 +3,11 @@ myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../src/')
 
 import mock
+import pytest
+
 from dealer import Dealer
 from player import Player
-from game import Game
+from game import Game, HandBustException
 from card import Card
 
 @mock.patch("game.input")
@@ -39,6 +41,11 @@ class TestGame():
         h = [Card("Ace", "Clubs"), Card(10, "Clubs")]
         assert self.game.sum_hand(h) == {11, 21}
 
+    def test_sum_hand_raises_bust_exception(self, mock_input):
+        h = [Card("King", "Clubs")] * 3
+        with pytest.raises(HandBustException):
+            self.game.sum_hand(h)
+
     def test_set_min(self, mock_input):
         assert self.game.min == 10
         
@@ -65,8 +72,17 @@ class TestGame():
         self.game.player_move("h")
         mock_hit.assert_called_once()
 
+    @mock.patch("game.Game.stay")
+    def test_player_move_stay(self, mock_stay, mock_input):
+        self.game.player_move("s")
+        mock_stay.assert_called_once()
+
     def test_hit_adds_card(self, mock_input):
         hand_len_before = len(self.game.player.hand)
         self.game.hit()
         assert len(self.game.player.hand) == hand_len_before + 1
 
+    def test_stay_doesnt_add_card(self, mock_input):
+        hand_len_before = len(self.game.player.hand)
+        self.game.stay()
+        assert len(self.game.player.hand) == hand_len_before        

@@ -2,6 +2,11 @@ from dealer import Dealer
 from player import Player
 from deck import Deck
 
+
+class HandBustException(Exception):
+    pass
+
+
 class Game():
     def __init__(self):
         print("\n........HOUSE VARIABLES........")
@@ -25,7 +30,6 @@ class Game():
         return self.get_sums(aces, base_sum)
 
     def get_sums(self, aces, base_sum):
-        
         height_of_heap = (2**(aces + 1) - 1)
         val_heap = [0] * height_of_heap
         val_heap[0] = base_sum
@@ -37,6 +41,8 @@ class Game():
 
         raw_sums = {*val_heap[return_length:]}
         sums = self.filter_out_busts(raw_sums)
+        if len(sums) == 0:
+            raise HandBustException
         return sums
 
     def filter_out_busts(self, sums):
@@ -63,9 +69,14 @@ class Game():
     def player_move(self, i):
         if i == "h":
             self.hit()
+        elif i == "s":
+            self.stay()
 
     def hit(self):
         self.dealer.draw(self.player)
+
+    def stay(self):
+        pass
 
     def start(self):
         exit_condition = self.dealer.house_money <= 0 or self.player.money <= 0
