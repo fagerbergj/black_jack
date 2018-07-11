@@ -9,7 +9,7 @@ class Dealer():
     def draw(self, target=None):
         if(target == None):
             target = self
-        if(len(self.deck.cards ) == 0):
+        if(len(self.deck.cards) == 0):
             self.deck = Deck()
         target.hand.append(self.deck.draw())
 

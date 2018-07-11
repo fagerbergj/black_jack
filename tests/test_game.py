@@ -20,6 +20,8 @@ class TestGame():
     def test_game(self, mock_input):
         assert self.game.dealer.house_money == 1100
         assert self.game.player.name == "Tom" and self.game.player.money == 21445
+        assert self.game.turn_manager.popleft() is self.game.player
+        assert self.game.turn_manager.popleft() is self.game.dealer
 
     def test_sum_hand_no_ace(self, mock_input):
         h = [Card(10, "Hearts"), Card(2, "Clubs")]
@@ -42,7 +44,7 @@ class TestGame():
         assert self.game.sum_hand(h) == {11, 21}
 
     def test_sum_hand_raises_bust_exception(self, mock_input):
-        h = [Card("King", "Clubs")] * 3
+        h = [Card("Ace", "Clubs"), Card("Jack", "Clubs"), Card("Queen", "Clubs"), Card(4, "Clubs")] 
         with pytest.raises(HandBustException):
             self.game.sum_hand(h)
 
@@ -70,7 +72,7 @@ class TestGame():
     @mock.patch("game.Game.hit")
     def test_player_move_hit(self, mock_hit, mock_input):
         self.game.player_move("h")
-        mock_hit.assert_called_once()
+        mock_hit.assert_called_once_with(self.game.player)
 
     @mock.patch("game.Game.stay")
     def test_player_move_stay(self, mock_stay, mock_input):
@@ -79,7 +81,7 @@ class TestGame():
 
     def test_hit_adds_card(self, mock_input):
         hand_len_before = len(self.game.player.hand)
-        self.game.hit()
+        self.game.hit(self.game.player)
         assert len(self.game.player.hand) == hand_len_before + 1
 
     def test_stay_doesnt_add_card(self, mock_input):

@@ -1,6 +1,7 @@
 from dealer import Dealer
 from player import Player
 from deck import Deck
+from circular_queue import CircularQueue
 
 
 class HandBustException(Exception):
@@ -14,7 +15,11 @@ class Game():
         self.min = int(input("Enter table min: "))
         print("\n........PLAYER VARIABLES........")
         self.player = Player(input("Player Name: "), int(input("Player Limit: ")))
-        
+
+        #Turn manager
+        self.turn_manager = CircularQueue()
+        self.turn_manager.append(self.player)
+        self.turn_manager.append(self.dealer)
 
     def sum_hand(self, h):
         base_sum = 0
@@ -68,12 +73,12 @@ class Game():
     
     def player_move(self, i):
         if i == "h":
-            self.hit()
+            self.hit(self.player)
         elif i == "s":
             self.stay()
 
-    def hit(self):
-        self.dealer.draw(self.player)
+    def hit(self, player):
+        self.dealer.draw(player)
 
     def stay(self):
         pass
@@ -82,7 +87,10 @@ class Game():
         exit_condition = self.dealer.house_money <= 0 or self.player.money <= 0
         print("........GAME HAS STARTED........\n")
         while not exit_condition:
-            self.player.bet(self.get_valid_bet(self.player.name))
+            cur_player = self.turn_manager.popleft()
+
+            if(isinstance(cur_player, Player)):
+                cur_player.bet(self.get_valid_bet(self.player.name))
             #Deal Cards
             print("\n........DEALING CARDS........")
             self.dealer.draw(self.player)
@@ -90,15 +98,32 @@ class Game():
             self.player.status()
             self.dealer.draw()
             self.dealer.status()
-            print("\n........PLAYER'S TURN........")
-            move = input("Move Options: \nh = hit\ns = stay\nEnter move:")
-            while(not self.is_valid_move(move)):
-                move = input("MOVE INVALID\nEnter move:")
-            return
 
-            #Check hands
-            
-            #player decides moves
-            #winner is determined
-            #money is shifted
-            #player decides if they want to leave
+            print("\n........TURNS........")
+
+            while(isinstance(cur_player, Player)):
+                try:
+                    move = None
+                    while(move != 's'):
+                        move = input("Move Options: \nh = hit\ns = stay\nEnter move:")
+                        while(not self.is_valid_move(move)):
+                            move = input("MOVE INVALID\nEnter move:")
+                        self.player_move(move)
+                        cur_player.status()
+                        self.sum_hand(cur_player.hand)
+                except HandBustException:
+                    print("BUST")
+                    pass
+                cur_player = self.turn_manager.popleft()
+
+            #dealer moves until >17 or bust
+            try:
+                while(max(self.sum_hand(cur_player.hand)) <= 17):
+                    self.hit(cur_player)
+                    cur_player.status()
+            except HandBustException:
+                pass
+
+            #win con detection
+            #payouts
+            return
