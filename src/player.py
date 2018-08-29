@@ -9,5 +9,5 @@ class Player():
         print("Player's Remaining Money: {}\n Player Hand: {}".format(self.money, self.hand))
 
     def bet(self, b):
-        self.curr_bet = b
+        self.curr_bet += b
         self.money -= b

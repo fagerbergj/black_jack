@@ -20,6 +20,7 @@ class Game():
         self.turn_manager = CircularQueue()
         self.turn_manager.append(self.player)
         self.turn_manager.append(self.dealer)
+        self.cur_player = self.turn_manager[0]
 
     def sum_hand(self, h):
         base_sum = 0
@@ -57,40 +58,49 @@ class Game():
                 r.add(s)
         return r
     
-    def get_valid_bet(self, name):
-        bet = int(input("{} place your bet: ".format(name)))
+    def get_valid_bet(self):
+        bet = int(input("{} place your bet: ".format(self.player.name)))
         if bet > self.player.money:
             print("Invalid bet, bet too high")
-            return self.get_valid_bet(name)
+            return self.get_valid_bet()
         elif bet < self.min:
             print("Invalid bet, bet too low")
-            return self.get_valid_bet(name)
+            return self.get_valid_bet()
         else:
             return bet
 
     def is_valid_move(self, i):
-        return i == "h" or i == "s"
+        if i == "d":
+            return self.player.curr_bet <= self.player.money
+        return i == "h" or i == "s" 
     
     def player_move(self, i):
         if i == "h":
-            self.hit(self.player)
+            self.hit()
         elif i == "s":
             self.stay()
+        elif i == "d":
+            self.double()
+        
 
-    def hit(self, player):
-        self.dealer.draw(player)
+    def hit(self):
+        self.dealer.draw(self.cur_player)
 
     def stay(self):
         pass
+
+    def double(self):
+        self.player.bet(self.player.curr_bet)
+        self.hit()
 
     def start(self):
         exit_condition = self.dealer.house_money <= 0 or self.player.money <= 0
         print("........GAME HAS STARTED........\n")
         while not exit_condition:
-            cur_player = self.turn_manager.popleft()
+            self.cur_player = self.turn_manager.popleft()
 
-            if(isinstance(cur_player, Player)):
-                cur_player.bet(self.get_valid_bet(self.player.name))
+            if(isinstance(self.cur_player, Player)):
+                self.cur_player.bet(self.get_valid_bet())
             #Deal Cards
             print("\n........DEALING CARDS........")
             self.dealer.draw(self.player)
@@ -100,27 +110,27 @@ class Game():
             self.dealer.status()
 
             print("\n........TURNS........")
-
-            while(isinstance(cur_player, Player)):
+            while(isinstance(self.cur_player, Player)):
                 try:
                     move = None
-                    while(move != 's'):
-                        move = input("Move Options: \nh = hit\ns = stay\nEnter move:")
+                    while(move != 's' and move != 'd'):
+                        move = input("Move Options: \nh = hit\ns = stay\nd = double\nEnter move:")
                         while(not self.is_valid_move(move)):
                             move = input("MOVE INVALID\nEnter move:")
                         self.player_move(move)
-                        cur_player.status()
-                        self.sum_hand(cur_player.hand)
+                        self.cur_player.status()
+                        self.sum_hand(self.cur_player.hand)
                 except HandBustException:
                     print("BUST")
                     pass
-                cur_player = self.turn_manager.popleft()
+                self.cur_player.curr_bet = 0
+                self.cur_player = self.turn_manager.popleft()
 
             #dealer moves until >17 or bust
             try:
-                while(max(self.sum_hand(cur_player.hand)) <= 17):
-                    self.hit(cur_player)
-                    cur_player.status()
+                while(max(self.sum_hand(self.cur_player.hand)) <= 17):
+                    self.hit()
+                    self.cur_player.status()
             except HandBustException:
                 pass
 
