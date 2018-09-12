@@ -11,7 +11,7 @@ class TestPlayer():
     def test_player(self):
         hand = [Card("Jack","Hearts")]
         test = Player("Jason", 100, hand)
-        assert test.hand == hand
+        assert test.curr_hand == hand
         assert test.name == "Jason"
         assert test.money == 100
 
@@ -20,7 +20,7 @@ class TestPlayer():
         hand = [Card("Jack","Hearts")]
         test = Player("Jason", 100, hand)
         test.status()
-        m.assert_called_once_with("Player's Remaining Money: {}\n Player Hand: {}".format(test.money, test.hand))
+        m.assert_called_once_with("Player's Remaining Money: {}\n Player Hand: {}".format(test.money, test.curr_hand))
 
     @mock.patch("player.print")
     def test_bet(self, m):

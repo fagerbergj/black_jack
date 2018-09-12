@@ -70,9 +70,13 @@ class Game():
             return bet
 
     def is_valid_move(self, i):
+        if i == "sp":
+            has_same_val = self.player.curr_hand[0].value  == self.player.curr_hand[1].value
+            has_enough_money = self.player.curr_bet <= self.player.money
+            return len(self.player.curr_hand) == 2 and has_same_val and has_enough_money
         if i == "d":
             return self.player.curr_bet <= self.player.money
-        return i == "h" or i == "s" 
+        return i == "h" or i == "s"
     
     def player_move(self, i):
         if i == "h":
@@ -114,12 +118,12 @@ class Game():
                 try:
                     move = None
                     while(move != 's' and move != 'd'):
-                        move = input("Move Options: \nh = hit\ns = stay\nd = double\nEnter move:")
+                        move = input("Move Options: \nh = hit\ns = stay\nd = double\nsp = split\nEnter move:")
                         while(not self.is_valid_move(move)):
                             move = input("MOVE INVALID\nEnter move:")
                         self.player_move(move)
                         self.cur_player.status()
-                        self.sum_hand(self.cur_player.hand)
+                        self.sum_hand(self.cur_player.curr_hand)
                 except HandBustException:
                     print("BUST")
                     pass
@@ -128,7 +132,7 @@ class Game():
 
             #dealer moves until >17 or bust
             try:
-                while(max(self.sum_hand(self.cur_player.hand)) <= 17):
+                while(max(self.sum_hand(self.cur_player.curr_hand)) <= 17):
                     self.hit()
                     self.cur_player.status()
             except HandBustException:

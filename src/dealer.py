@@ -7,11 +7,13 @@ class Dealer():
         self.hand = hand
 
     def draw(self, target=None):
-        if(target == None):
-            target = self
         if(len(self.deck.cards) == 0):
             self.deck = Deck()
-        target.hand.append(self.deck.draw())
+        if(target == None):
+            self.hand.append(self.deck.draw())
+            return
+        
+        target.curr_hand.append(self.deck.draw())
 
     def status(self):
         print("Dealer's Remaining Money: {}\n Dealer Hand: {}".format(self.house_money, self.hand))

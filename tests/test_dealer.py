@@ -35,8 +35,8 @@ class TestDealer():
         self.test.draw(self.play)
 
         expected = [Card("Queen","Spades")]
-        for i in range(len(self.play.hand)):
-            assert len(self.play.hand) == len(expected)  and self.same_card(self.play.hand[i], expected[i]) 
+        for i in range(len(self.play.curr_hand)):
+            assert len(self.play.curr_hand) == len(expected)  and self.same_card(self.play.curr_hand[i], expected[i]) 
 
     def test_draw_empty(self):
         empty = Dealer(300, [], Deck([]))
