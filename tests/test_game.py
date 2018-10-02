@@ -6,12 +6,13 @@ import mock
 import pytest
 
 from dealer import Dealer
+from hand import Hand
 from player import Player
-from game import Game, HandBustException
+from game import Game
 from card import Card
 
 @mock.patch("game.input")
-class TestGame():
+class TestGame(object):
 
     def setup_method(self):
         with mock.patch("game.input", side_effect=["1100", "10", "Tom", "21445"]):
@@ -22,31 +23,6 @@ class TestGame():
         assert self.game.player.name == "Tom" and self.game.player.money == 21445
         assert self.game.turn_manager.popleft() is self.game.player
         assert self.game.turn_manager.popleft() is self.game.dealer
-
-    def test_sum_hand_no_ace(self, mock_input):
-        h = [Card(10, "Hearts"), Card(2, "Clubs")]
-        assert self.game.sum_hand(h) == {12}
-
-    def test_sum_hand_has_ace(self, mock_input):
-        h = [Card(8, "Hearts"), Card("Ace", "Clubs")]
-        assert self.game.sum_hand(h) == {19,9}
-
-    def test_sum_hand_has_multi_ace(self, mock_input):
-        h = [Card(8, "Hearts"), Card("Ace", "Clubs"), Card("Ace", "Clubs")]
-        assert self.game.sum_hand(h) == {10,20}
-
-    def test_sum_hand_worst_case(self, mock_input):
-        h = [Card("Ace", "Clubs")] * 16
-        assert self.game.sum_hand(h) == {16}
-
-    def test_sum_hand_equals_21(self, mock_input):
-        h = [Card("Ace", "Clubs"), Card(10, "Clubs")]
-        assert self.game.sum_hand(h) == {11, 21}
-
-    def test_sum_hand_raises_bust_exception(self, mock_input):
-        h = [Card("Ace", "Clubs"), Card("Jack", "Clubs"), Card("Queen", "Clubs"), Card(4, "Clubs")] 
-        with pytest.raises(HandBustException):
-            self.game.sum_hand(h)
 
     def test_set_min(self, mock_input):
         assert self.game.min == 10
@@ -70,21 +46,21 @@ class TestGame():
         assert self.game.is_valid_move(move)
 
     def test_valid_move_split(self, mock_input):
-        h = [Card("Ace", "Clubs"), Card("Ace", "Clubs")]
+        h = Hand([Card("Ace", "Clubs"), Card("Ace", "Clubs")])
         self.game.player.curr_hand = h
         self.game.player.money = 20
         self.game.player.curr_bet = 10
         assert self.game.is_valid_move("sp")
 
     def test_invalid_move_split_different_card_values(self, mock_input):
-        h = [Card("Ace", "Clubs"), Card(4, "Clubs")]
+        h = Hand([Card("Ace", "Clubs"), Card(4, "Clubs")])
         self.game.player.curr_hand = h
         self.game.player.money = 20
         self.game.player.curr_bet = 10
         assert not self.game.is_valid_move("sp")
 
     def test_invalid_move_split_not_enough_money(self, mock_input):
-        h = [Card("Ace", "Clubs"), Card("Ace", "Clubs")]
+        h = Hand([Card("Ace", "Clubs"), Card("Ace", "Clubs")])
         self.game.player.curr_hand = h
         self.game.player.money = 10
         self.game.player.curr_bet = 15

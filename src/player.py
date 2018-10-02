@@ -1,5 +1,7 @@
+from hand import Hand
+
 class Player():
-    def __init__(self, name, money, hand=[]):
+    def __init__(self, name, money, hand=Hand()):
         self.name = name
         self.money = money
         self.curr_hand = hand

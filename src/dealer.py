@@ -1,7 +1,8 @@
 from deck import Deck
+from hand import Hand
 
 class Dealer():
-    def __init__(self, house_money, hand=[], deck=Deck()):
+    def __init__(self, house_money, hand=Hand(), deck=Deck()):
         self.house_money = house_money
         self.deck = deck
         self.hand = hand
