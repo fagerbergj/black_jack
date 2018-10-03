@@ -26,18 +26,6 @@ class TestGame(object):
 
     def test_set_min(self, mock_input):
         assert self.game.min == 10
-        
-    def test_valid_bet(self, mock_input):
-        mock_input.side_effect = ["40"]
-        assert self.game.get_valid_bet() == 40 
-
-    def test_invalid_high_bet(self, mock_input):
-        mock_input.side_effect = ["21446","21450","123456789", "50"]
-        assert self.game.get_valid_bet() == 50
-
-    def test_invalid_low_bet(self, mock_input):
-        mock_input.side_effect = ["9","1","0", "10"]
-        assert self.game.get_valid_bet() == 10
 
     @pytest.mark.parametrize("move", [
         "h", "s"

@@ -18,17 +18,6 @@ class Game():
         self.turn_manager.append(self.player)
         self.turn_manager.append(self.dealer)
         self.cur_player = self.turn_manager[0]
-    
-    def get_valid_bet(self):
-        bet = int(input("{} place your bet: ".format(self.player.name)))
-        if bet > self.player.money:
-            print("Invalid bet, bet too high")
-            return self.get_valid_bet()
-        elif bet < self.min:
-            print("Invalid bet, bet too low")
-            return self.get_valid_bet()
-        else:
-            return bet
 
     def is_valid_move(self, i):
         if i == "sp":
@@ -63,8 +52,9 @@ class Game():
         while not exit_condition:
             self.cur_player = self.turn_manager.popleft()
 
-            if(isinstance(self.cur_player, Player)):
-                self.cur_player.bet(self.get_valid_bet())
+            if (isinstance(self.cur_player, Player)):
+                valid_bet = self.cur_player.get_valid_bet(self.min)
+                self.cur_player.bet(valid_bet)
             #Deal Cards
             print("\n........DEALING CARDS........")
             self.dealer.draw(self.player)

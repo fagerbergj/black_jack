@@ -16,9 +16,9 @@ class Hand(list):
             else:
                 aces += 1
                 
-        return self.get_sums(aces, base_sum)
+        return self.__get_sums(aces, base_sum)
 
-    def get_sums(self, aces, base_sum):
+    def __get_sums(self, aces, base_sum):
         height_of_heap = (2**(aces + 1) - 1)
         val_heap = [0] * height_of_heap
         val_heap[0] = base_sum
@@ -29,12 +29,12 @@ class Hand(list):
             val_heap[2*i + 2] = val_heap[i] + 11
 
         raw_sums = {*val_heap[return_length:]}
-        sums = self.filter_out_busts(raw_sums)
+        sums = self.__filter_out_busts(raw_sums)
         if len(sums) == 0:
             raise HandBustException
         return sums
 
-    def filter_out_busts(self, sums):
+    def __filter_out_busts(self, sums):
         r = set()
         for s in sums:
             if s <= 21:
