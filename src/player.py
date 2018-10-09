@@ -24,3 +24,12 @@ class Player():
             return self.get_valid_bet(table_min)
         else:
             return bet
+
+    def is_valid_move(self, i):
+        if i == "sp":
+            has_same_val = self.curr_hand[0].value  == self.curr_hand[1].value
+            has_enough_money = self.curr_bet <= self.money
+            return len(self.curr_hand) == 2 and has_same_val and has_enough_money
+        if i == "d":
+            return self.curr_bet <= self.money
+        return i == "h" or i == "s"

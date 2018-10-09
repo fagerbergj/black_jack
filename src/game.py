@@ -19,14 +19,6 @@ class Game():
         self.turn_manager.append(self.dealer)
         self.cur_player = self.turn_manager[0]
 
-    def is_valid_move(self, i):
-        if i == "sp":
-            has_same_val = self.player.curr_hand[0].value  == self.player.curr_hand[1].value
-            has_enough_money = self.player.curr_bet <= self.player.money
-            return len(self.player.curr_hand) == 2 and has_same_val and has_enough_money
-        if i == "d":
-            return self.player.curr_bet <= self.player.money
-        return i == "h" or i == "s"
     
     def player_move(self, i):
         if i == "h":
@@ -69,7 +61,7 @@ class Game():
                     move = None
                     while(move != 's' and move != 'd'):
                         move = input("Move Options: \nh = hit\ns = stay\nd = double\nsp = split\nEnter move:")
-                        while(not self.is_valid_move(move)):
+                        while(not self.cur_player.is_valid_move(move)):
                             move = input("MOVE INVALID\nEnter move:")
                         self.player_move(move)
                         self.cur_player.status()

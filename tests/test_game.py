@@ -27,36 +27,6 @@ class TestGame(object):
     def test_set_min(self, mock_input):
         assert self.game.min == 10
 
-    @pytest.mark.parametrize("move", [
-        "h", "s"
-    ])
-    def test_valid_move_hit_stay(self, mock_input, move):
-        assert self.game.is_valid_move(move)
-
-    def test_valid_move_split(self, mock_input):
-        h = Hand([Card("Ace", "Clubs"), Card("Ace", "Clubs")])
-        self.game.player.curr_hand = h
-        self.game.player.money = 20
-        self.game.player.curr_bet = 10
-        assert self.game.is_valid_move("sp")
-
-    def test_invalid_move_split_different_card_values(self, mock_input):
-        h = Hand([Card("Ace", "Clubs"), Card(4, "Clubs")])
-        self.game.player.curr_hand = h
-        self.game.player.money = 20
-        self.game.player.curr_bet = 10
-        assert not self.game.is_valid_move("sp")
-
-    def test_invalid_move_split_not_enough_money(self, mock_input):
-        h = Hand([Card("Ace", "Clubs"), Card("Ace", "Clubs")])
-        self.game.player.curr_hand = h
-        self.game.player.money = 10
-        self.game.player.curr_bet = 15
-        assert not self.game.is_valid_move("sp")
-
-    def test_invalid_move(self, mock_input):
-        assert not self.game.is_valid_move("x") and not self.game.is_valid_move("shgs")
-
     @mock.patch("game.Game.hit")
     def test_player_move_hit(self, mock_hit, mock_input):
         self.game.player_move("h")
@@ -76,16 +46,6 @@ class TestGame(object):
         hand_len_before = len(self.game.player.curr_hand)
         self.game.stay()
         assert len(self.game.player.curr_hand) == hand_len_before   
-
-    def test_double_insufficent_money_is_invalid_move(self, mock_input):
-        self.game.player.curr_bet = 9999
-        self.game.player.money = 0
-        assert not self.game.is_valid_move("d")
-
-    def test_double_sufficent_money_is_valid_move(self, mock_input):
-        self.game.player.curr_bet = 1
-        self.game.player.money = 3
-        assert self.game.is_valid_move("d")
 
     def test_double_doubles_bet_subtracts_money_and_hits(self, mock_input):
         inital_amount_of_cards = len(self.game.player.curr_hand)
