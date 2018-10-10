@@ -1,5 +1,5 @@
 from deck import Deck
-from hand import Hand
+from hand import Hand, HandBustException
 
 class Dealer():
     def __init__(self, house_money, hand=Hand(), deck=Deck()):
@@ -15,6 +15,15 @@ class Dealer():
             return
         
         target.curr_hand.append(self.deck.draw())
+
+    def move(self):
+        """dealer moves until >=17 or bust"""
+        try:
+            while(max(self.hand.sum()) < 17):
+                self.draw()
+                self.status()
+        except HandBustException:
+            pass
 
     def status(self):
         print("Dealer's Remaining Money: {}\n Dealer Hand: {}".format(self.house_money, self.hand))

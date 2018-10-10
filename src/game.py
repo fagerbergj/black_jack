@@ -18,7 +18,6 @@ class Game():
         self.turn_manager.append(self.player)
         self.turn_manager.append(self.dealer)
         self.cur_player = self.turn_manager[0]
-
     
     def player_move(self, i):
         if i == "h":
@@ -38,6 +37,22 @@ class Game():
         self.player.bet(self.player.curr_bet)
         self.hit()
 
+    def deal_cards(self):
+        print("\n........DEALING CARDS........")
+        self.dealer.draw(self.player)
+        self.dealer.draw(self.player)
+        self.player.status()
+        self.dealer.draw()
+        self.dealer.status()
+
+    def do_player_input(self):
+        move = input("Move Options: \nh = hit\ns = stay\nd = double\nsp = split\nEnter move:")
+        while(not self.cur_player.is_valid_move(move)):
+            move = input("MOVE INVALID\nEnter move:")
+        self.player_move(move)
+        self.cur_player.status()
+        self.cur_player.curr_hand.sum()
+
     def start(self):
         exit_condition = self.dealer.house_money <= 0 or self.player.money <= 0
         print("........GAME HAS STARTED........\n")
@@ -47,38 +62,21 @@ class Game():
             if (isinstance(self.cur_player, Player)):
                 valid_bet = self.cur_player.get_valid_bet(self.min)
                 self.cur_player.bet(valid_bet)
-            #Deal Cards
-            print("\n........DEALING CARDS........")
-            self.dealer.draw(self.player)
-            self.dealer.draw(self.player)
-            self.player.status()
-            self.dealer.draw()
-            self.dealer.status()
+            self.deal_cards()
 
             print("\n........TURNS........")
             while(isinstance(self.cur_player, Player)):
                 try:
                     move = None
                     while(move != 's' and move != 'd'):
-                        move = input("Move Options: \nh = hit\ns = stay\nd = double\nsp = split\nEnter move:")
-                        while(not self.cur_player.is_valid_move(move)):
-                            move = input("MOVE INVALID\nEnter move:")
-                        self.player_move(move)
-                        self.cur_player.status()
-                        self.cur_player.curr_hand.sum()
+                        self.do_player_input()
                 except HandBustException:
                     print("BUST")
                     pass
                 self.cur_player.curr_bet = 0
                 self.cur_player = self.turn_manager.popleft()
 
-            #dealer moves until >17 or bust
-            try:
-                while(max(self.cur_player.curr_hand.sum()) <= 17):
-                    self.hit()
-                    self.cur_player.status()
-            except HandBustException:
-                pass
+            self.cur_player.move()
 
             #win con detection
             #payouts
