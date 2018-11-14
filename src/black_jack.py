@@ -2,7 +2,7 @@ from game import Game
 
 def main():
     jack = Game()
-    jack.start()
+    jack.run()
     
 
 if __name__ == "__main__":

@@ -53,30 +53,39 @@ class Game():
         self.cur_player.status()
         self.cur_player.curr_hand.sum()
 
-    def start(self):
-        exit_condition = self.dealer.house_money <= 0 or self.player.money <= 0
-        print("........GAME HAS STARTED........\n")
-        while not exit_condition:
+    def is_game_over(self):
+        return self.dealer.house_money <= 0 or self.player.money <= 0
+
+    def place_bet(self):
+        if (isinstance(self.cur_player, Player)):
+            valid_bet = self.cur_player.get_valid_bet(self.min)
+            self.cur_player.bet(valid_bet)
+
+    def init_round(self):
+        self.cur_player = self.turn_manager.popleft()
+        self.place_bet()
+        self.deal_cards()
+    
+    def do_round(self):
+        print("\n........TURNS........")
+        while(isinstance(self.cur_player, Player)):
+            try:
+                move = None
+                while(move != 's' and move != 'd'):
+                    self.do_player_input()
+            except HandBustException:
+                print("BUST")
+                pass
+            self.cur_player.curr_bet = 0
             self.cur_player = self.turn_manager.popleft()
 
-            if (isinstance(self.cur_player, Player)):
-                valid_bet = self.cur_player.get_valid_bet(self.min)
-                self.cur_player.bet(valid_bet)
-            self.deal_cards()
-
-            print("\n........TURNS........")
-            while(isinstance(self.cur_player, Player)):
-                try:
-                    move = None
-                    while(move != 's' and move != 'd'):
-                        self.do_player_input()
-                except HandBustException:
-                    print("BUST")
-                    pass
-                self.cur_player.curr_bet = 0
-                self.cur_player = self.turn_manager.popleft()
-
             self.cur_player.move()
+
+    def run(self):
+        print("........GAME HAS STARTED........\n")
+        while not self.is_game_over():
+            self.init_round()
+            self.do_round()
 
             #win con detection
             #payouts
