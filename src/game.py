@@ -34,10 +34,10 @@ class Game():
 
     def init_round(self):
         self.cur_player = self.turn_manager.popleft()
-        self.place_bet()
+        self.__place_bet()
         self.__deal_cards()
 
-    def place_bet(self):
+    def __place_bet(self):
         if (isinstance(self.cur_player, Player)):
             valid_bet = self.cur_player.get_valid_bet(self.min)
             self.cur_player.bet(valid_bet)

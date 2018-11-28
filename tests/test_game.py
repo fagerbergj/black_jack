@@ -21,6 +21,7 @@ class TestGame(object):
 
     def teardown_method(self):
         self.input_patcher.stop()
+        self.game = None
 
     def test_game(self):
         assert self.game.dealer.house_money == 1100
@@ -40,7 +41,7 @@ class TestGame(object):
         mock_stay.assert_called_once()
 
     @mock.patch("game.Game.double")
-    def test_player_move_stay(self, mock_double):
+    def test_player_move_double(self, mock_double):
         self.game.player_move("d")
         mock_double.assert_called_once()
 
@@ -72,6 +73,30 @@ class TestGame(object):
         mock_player_move.assert_has_calls([mock.call(moves[0]), mock.call(moves[1])])
         assert mock_player.status.call_count == 2
         assert mock_player.curr_hand.sum.call_count == 2
+
+    @pytest.mark.parametrize("player_money, house_money, expected", [
+        (10, 0, True), (0, 10, True), (5, 5, False)
+    ])
+    def test_is_game_over(self, player_money, house_money, expected):
+        self.game.player.money = player_money
+        self.game.dealer.house_money = house_money
+        assert self.game.is_game_over() == expected
+
+    @mock.patch('game.Player.get_valid_bet')
+    @mock.patch('game.Player.bet')
+    def test_init_round_player(self, mock_bet, mock_get_v_bet):
+        # For some reason the curr_hand of the player
+        # is coming back with a hand already
+        # comes from test hit and test double
+        self.game.player.curr_hand = Hand()
+        self.game.dealer.hand = Hand()
+        self.game.init_round()
+        assert self.game.cur_player is self.game.player
+        mock_get_v_bet.assert_called_once_with(self.game.min)
+        mock_bet.assert_called_once_with(mock_get_v_bet.return_value)
+        assert len(self.game.player.curr_hand) == 2
+        assert len(self.game.dealer.hand) == 1
+    
+    def test_init_round_dealer(self):
+        pass
         
-
-
